@@ -1,49 +1,47 @@
 ﻿namespace Cwiczenia3;
 
-public class LiquidContainer(int mass, int height, int weight, int depth, string type, int maxLoad)
-    : Container(mass, height, weight, depth, type, maxLoad), IHazardNotifier
+public class LiquidContainer : Container, IHazardNotifier
 {
-    private bool _dangerous = false;
-    private int _tempMass = 0;
-
-    public void AddItem(string item, int mass, bool dangerous)
+    private bool hazard { get; set; } = false;
+    public LiquidContainer(int height, int containerOwnMass, int depth, int maxWeight, bool hazard) : base(height, containerOwnMass, depth, "L", maxWeight)
     {
-        this._dangerous = dangerous;
-        if (Check())
-        {
-            base.load[item] = mass;
-        }
-        
+        this.hazard = hazard;
     }
 
     public void Notify()
     {
-        Console.WriteLine("Cargo mass exceeded certain amount operation can not be performed.");
-        _tempMass = 0;
+        Console.WriteLine("Hazardous situation in " + base.id + " container");
     }
 
     public bool Check()
     {
-        if (_dangerous)
+        throw new NotImplementedException();
+    }
+
+    public override void AddCargo(int weight)
+    {
+        if (hazard)
         {
-            double temp = (maxLoad * 0.5);
-            if ((_tempMass + base.CountMass()) > temp )
+            if (maxWeight * 0.5 > cargoWeight + weight)
             {
-                this.Notify();
-                return false;
+                cargoWeight += weight;
+            }
+            else
+            {
+                Notify();
             }
         }
         else
         {
-            double temp = (maxLoad * 0.9);
-            if ((_tempMass + base.CountMass()) > temp )
+            if (maxWeight * 0.9 > cargoWeight + weight)
             {
-                this.Notify();
-                return false;
+                cargoWeight += weight;
+            }
+            else
+            {
+                Notify();
             }
         }
-        return true;
+        
     }
 }
-    
-    

@@ -1,49 +1,48 @@
 ﻿namespace Cwiczenia3;
 
-public class Container
+public abstract class Container
 {
-    private static int value = 0;
-    private int index;
-    int mass;
-    private int height;
-    private int weight;
-    private int depth;
-    protected string serialNumber {get; set;}
-    protected Dictionary<string, int> load;
-    protected int maxLoad { get; set; }
+    public int cargoWeight { get; set; } = 0; 
+    public int height { get; set; }
+    public int containerOwnMass { get; set; }
+    public int depth { get; set; }
+    public string serialNumber { get; set; }
+    public int maxWeight { get; set; }
+    private static int _index = 0;
+    protected int id { get; } = 0;
 
-    public Container(int mass, int height, int weight, int depth, string type, int maxLoad)
+    public Container(int height, int containerOwnMass, int depth, string type, int maxWeight)
     {
-        index = value++;
-        this.mass = mass;
         this.height = height;
-        this.weight = weight;
+        this.containerOwnMass = containerOwnMass;
         this.depth = depth;
-        this.serialNumber = "KON" + type + index;
-        load = new Dictionary<string, int>();
+        id = _index++;
+        this.serialNumber = "KON-" + type + "" + id;
+        this.maxWeight = maxWeight;
     }
 
-    public virtual void EmptyCargo()
+    public virtual void ClearCargo()
     {
-        load = new Dictionary<string, int>();
+        cargoWeight = 0;
     }
 
-    public virtual void AddItem(string item, int mass)
+    public virtual void AddCargo(int weight)
     {
-        if (CountMass() + mass > maxLoad)
+        if (maxWeight > cargoWeight + weight)
         {
-            throw new Exception(); //TODO create new exception OverfillException
+            throw new Exception(); //TODO OverfillException
         }
-        else
-        {
-            load.Add(item, mass);
-        }
-       
+        cargoWeight += weight;
     }
 
-    protected int CountMass()
+    public virtual void AddCargo(int weight, string type)
     {
-        return load.Sum(keyValuePair => keyValuePair.Value);
+        AddCargo(weight);
     }
-    
+
+    public override string ToString()
+    {
+        return
+            $"{nameof(cargoWeight)}: {cargoWeight}, {nameof(height)}: {height}, {nameof(containerOwnMass)}: {containerOwnMass}, {nameof(depth)}: {depth}, {nameof(serialNumber)}: {serialNumber}, {nameof(maxWeight)}: {maxWeight}, {nameof(id)}: {id}";
+    }
 }
