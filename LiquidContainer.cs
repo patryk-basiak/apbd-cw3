@@ -2,10 +2,15 @@
 
 public class LiquidContainer : Container, IHazardNotifier
 {
-    private bool hazard { get; set; } = false;
+    private bool hazard { get; set; }
     public LiquidContainer(int height, int containerOwnMass, int depth, int maxWeight, bool hazard) : base(height, containerOwnMass, depth, "L", maxWeight)
     {
         this.hazard = hazard;
+    }
+
+    public LiquidContainer() : base("L")
+    {
+        this.hazard = false;
     }
 
     public void Notify()

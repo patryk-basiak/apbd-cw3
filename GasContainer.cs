@@ -1,8 +1,17 @@
 ﻿namespace Cwiczenia3;
 
-public class GasContainer(int height, int containerOwnMass, int depth, int maxWeight)
-    : Container(height, containerOwnMass, depth, "G", maxWeight), IHazardNotifier
+public class GasContainer : Container
+    
 {
+    public GasContainer(int height, int containerOwnMass, int depth, int maxWeight) : base(height,
+        containerOwnMass, depth, "G", maxWeight)
+    {
+        
+    }
+    public GasContainer() : base("G")
+    {
+        
+    }
     public double pressure { get; set; }
 
     public void Notify()

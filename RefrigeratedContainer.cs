@@ -22,6 +22,11 @@ public class RefrigeratedContainer : Container, IHazardNotifier
         this.temperature = temperature;
     }
 
+    public RefrigeratedContainer() : base("C")
+    {
+        this.temperature = 0;
+    }
+
     public void Notify()
     {
         Console.WriteLine("Hazardous situation in " + base.id + " container");

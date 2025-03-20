@@ -21,6 +21,16 @@ public abstract class Container
         this.maxWeight = maxWeight;
     }
 
+    public Container(string type)
+    {
+        this.height = 100;
+        this.containerOwnMass = 10;
+        this.depth = 10;
+        id = _index++;
+        this.serialNumber = "KON-" + type + "" + id;
+        this.maxWeight = 100;
+    }
+
     public virtual void ClearCargo()
     {
         cargoWeight = 0;

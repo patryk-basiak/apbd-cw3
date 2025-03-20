@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using Cwiczenia3;
+﻿using Cwiczenia3;
 
 Console.WriteLine("Hello, World!");
 
