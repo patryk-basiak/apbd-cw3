@@ -27,26 +27,20 @@ public class LiquidContainer : Container, IHazardNotifier
     {
         if (hazard)
         {
-            if (maxWeight * 0.5 > cargoWeight + weight)
-            {
-                cargoWeight += weight;
-            }
-            else
+            if (maxWeight * 0.5 < cargoWeight + weight)
             {
                 Notify();
             }
         }
         else
         {
-            if (maxWeight * 0.9 > cargoWeight + weight)
-            {
-                cargoWeight += weight;
-            }
-            else
+            if (maxWeight * 0.9 <= cargoWeight + weight)
             {
                 Notify();
             }
+           
         }
+        base.AddCargo(weight);
         
     }
 }

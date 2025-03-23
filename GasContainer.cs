@@ -30,8 +30,12 @@ public class GasContainer : Container
 
     public override void AddCargo(int weight)
     {
-        if (maxWeight >= cargoWeight + weight) return;
-        Notify();
-        cargoWeight += weight;
+        if (maxWeight < cargoWeight + weight)
+        {
+            Notify();
+        };
+        base.AddCargo(weight);
+        
+        
     }
 }

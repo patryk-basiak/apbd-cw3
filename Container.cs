@@ -3,13 +3,15 @@
 public abstract class Container
 {
     public int cargoWeight { get; set; } = 0; 
+    public int totalWeight { get; set; } = 0; 
     public int height { get; set; }
     public int containerOwnMass { get; set; }
     public int depth { get; set; }
     public string serialNumber { get; set; }
     public int maxWeight { get; set; }
     private static int _index = 0;
-    protected int id { get; } = 0;
+    public int id { get; } = 0;
+    public string type { get; }
 
     public Container(int height, int containerOwnMass, int depth, string type, int maxWeight)
     {
@@ -17,6 +19,8 @@ public abstract class Container
         this.containerOwnMass = containerOwnMass;
         this.depth = depth;
         id = _index++;
+        this.type = type;
+        this.totalWeight += containerOwnMass;
         this.serialNumber = "KON-" + type + "" + id;
         this.maxWeight = maxWeight;
     }
@@ -38,11 +42,12 @@ public abstract class Container
 
     public virtual void AddCargo(int weight)
     {
-        if (maxWeight > cargoWeight + weight)
+        if (maxWeight < cargoWeight + weight)
         {
-            throw new Exception(); //TODO OverfillException
+            throw new OverFillException();
         }
         cargoWeight += weight;
+        totalWeight += cargoWeight;
     }
 
     public virtual void AddCargo(int weight, string type)
@@ -53,6 +58,6 @@ public abstract class Container
     public override string ToString()
     {
         return
-            $"{nameof(cargoWeight)}: {cargoWeight}, {nameof(height)}: {height}, {nameof(containerOwnMass)}: {containerOwnMass}, {nameof(depth)}: {depth}, {nameof(serialNumber)}: {serialNumber}, {nameof(maxWeight)}: {maxWeight}, {nameof(id)}: {id}";
+            $"{type}, waga: {totalWeight}kg, id: {id}";
     }
 }

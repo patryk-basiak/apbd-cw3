@@ -17,10 +17,10 @@ public class Ship( int maxSpeed, int maxCointainersCount, int maxWeight, string 
         {
             return;
         }
-        if (maxCointainersCount > containers.Count + 1 && maxWeight > currentWeight + container.cargoWeight) 
+        if (maxCointainersCount >= (containers.Count + 1) && maxWeight > (currentWeight + container.totalWeight))
         {
             containers.Add(container);
-            currentWeight += container.cargoWeight;
+            currentWeight += container.totalWeight;
         }
         else
         {
@@ -33,7 +33,7 @@ public class Ship( int maxSpeed, int maxCointainersCount, int maxWeight, string 
         if (containers.Contains(container))
         {
             containers.Remove(container);
-            currentWeight -= container.cargoWeight;
+            currentWeight -= container.totalWeight;
             return container;
         }
         Console.WriteLine("There is not such container in this ship");
@@ -64,6 +64,6 @@ public class Ship( int maxSpeed, int maxCointainersCount, int maxWeight, string 
     public override string ToString()
     {
         return
-            $"Ship name = {name} \n{string.Join(",", containers)}, {nameof(max_speed)}: {max_speed}, {nameof(maxCointainersCount)}: {maxCointainersCount}, {nameof(maxWeight)}: {maxWeight}, {nameof(currentWeight)}: {currentWeight}";
+            name + $" (speed={max_speed}, maxContainerNum={maxCointainersCount}, maxWeight={maxWeight})";
     }
 }
