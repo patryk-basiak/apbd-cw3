@@ -3,5 +3,4 @@
 public interface IHazardNotifier
 {
     public void Notify();
-    public bool Check();
 }

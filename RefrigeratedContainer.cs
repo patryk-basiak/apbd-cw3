@@ -4,7 +4,7 @@ public class RefrigeratedContainer : Container, IHazardNotifier
 {
     public double temperature { get; }
 
-    public Dictionary<string, double> cargo = new Dictionary<string, double>()
+    public readonly Dictionary<string, double> Cargo = new Dictionary<string, double>()
     {
         { "Bananas", 13.3 },
         { "Chocolate", 18 },
@@ -15,7 +15,7 @@ public class RefrigeratedContainer : Container, IHazardNotifier
         { "Cheese", 7.2 },
         { "Sausages", 5 },
         { "Butter", 20.5 },
-        { "Eghs", 19 },
+        { "Eggs", 19 },
     };
     public RefrigeratedContainer(int height, int containerOwnMass, int depth, int maxWeight, double temperature) : base(height, containerOwnMass, depth, "C", maxWeight)
     {
@@ -39,22 +39,26 @@ public class RefrigeratedContainer : Container, IHazardNotifier
 
     public override void AddCargo(int weight, string type)
     {
-        if (cargo.TryGetValue(type, out var value))
+        if (Cargo.TryGetValue(type, out var value))
         {
             if (Math.Abs(temperature - value) < 1e-15)
             {
-                base.AddCargo(weight); 
+                base.AddCargo(weight);
             }
             else
             {
                 Notify();
             }
-            
+
         }
         else
         {
             Notify();
         }
-        
+    }
+
+    public override void AddCargo(int weight)
+    {
+        Console.WriteLine("Can't add cargo that way, provide type");
     }
 }

@@ -18,11 +18,6 @@ public class GasContainer : Container
     {
         Console.WriteLine("Hazardous situation in " + base.id + " container");
     }
-
-    public bool Check()
-    {
-        throw new NotImplementedException();
-    }
     public override void ClearCargo()
     {
         maxWeight = (int)(maxWeight * 0.05);

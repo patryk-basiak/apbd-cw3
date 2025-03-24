@@ -7,6 +7,7 @@ bool program = true;
 Menu();
 while (program)
 {
+    Console.WriteLine("=========");
     PrintAction();
     string action = Console.ReadLine();
     MakeAction(Int32.Parse(action));
@@ -18,7 +19,6 @@ return;
 void Menu()
 {
     Console.WriteLine("Witaj użytkowniku w systemie zarządzania portem towarowym!");
-    Console.WriteLine("");
 }
 
 void PrintAction()
@@ -38,11 +38,13 @@ void PrintAction()
             Console.WriteLine($"{++index}. Usun kontener");
         }
     }
+    Console.WriteLine("9. Wyjdź z programu");
     
 }
 
 void ManageShip(Ship s)
 {
+    Console.WriteLine("====================================");
     Console.WriteLine($"Zarządzanie kontenerowcem {s.name}");
     Console.WriteLine($"Liczba kontenerów {s.containers.Count}/{s.maxCointainersCount}");
     Console.WriteLine($"Waga {s.currentWeight}/{s.maxWeight}");
@@ -51,6 +53,7 @@ void ManageShip(Ship s)
     Console.WriteLine("2. Dodaj nowy kontener:");
     Console.WriteLine("3. Usuń kontener:");
     Console.WriteLine("4. Przenieś kontener do innego statku:");
+    Console.WriteLine("9. Powrót do menu");
     string action = Console.ReadLine();
     switch (action)
     {
@@ -77,6 +80,11 @@ void ManageShip(Ship s)
             Console.WriteLine("Podaj nazwę statku docelowego");
             GetShipByName(Console.ReadLine()).AddContainer(s.RemoveContainer(cont));
             break;
+        case "5":
+            return;
+        default:
+            Console.WriteLine("Brak dostępnej opcji");
+            return;
     }
 }
 
@@ -91,7 +99,7 @@ void PrintShipListWithout(Ship s)
     {
         if (ship != s)
         {
-            Console.WriteLine($"{ship.name}, ");
+            Console.Write($"{ship.name}, ");
         }
     }
 }
@@ -127,6 +135,13 @@ void ManageContainer(Container c)
         case "1":
             Console.Write("Podaj ile dodać kg ładunku: ");
             var xid = Int32.Parse(Console.ReadLine());
+            if (c.type == "C")
+            {
+                Console.Write("Podaj ile typ ładunku: ");
+                var type  = Console.ReadLine(); 
+                c.AddCargo(xid, type);
+                break;
+            }
             c.AddCargo(xid);
             break;
         case "2":
@@ -162,7 +177,9 @@ void MakeAction(int action)
             shipList.Add(newShip());
             break;
         case 2:
-            containerList.Add(NewContainer());
+            var c = NewContainer();
+            ManageContainer(c);
+            containerList.Add(c);
             break;
         case 3:
             Console.WriteLine();
@@ -183,7 +200,48 @@ void MakeAction(int action)
                 Console.WriteLine("Nie ma takiego statku");
             }
             break; 
+        case 4:
+            var xc = GetContainerFromStorage();
+            PrintShipListWithout(null);
+            Console.Write("Napisz nazwę statku na którym umiesić kontener: ");
+            var sh = GetShipByName(Console.ReadLine());
+            sh.AddContainer(xc);
+            break;
+        case 5:
+            PrintShipListWithout(null);
+            Console.Write("Napisz nazwę statku z którego usunać kontener: ");
+            var sho = GetShipByName(Console.ReadLine());
+            sho.containers.Remove(FindContainerInShip(sho));
+            break;
+        case 6: 
+            PrintShipListWithout(null);
+            MoveBetweenShip();
+            break;
+        case 7:
+            var tempCont = GetContainerFromStorage();
+            containerList.Remove(tempCont);
+            break;
+        case 9:
+            Environment.Exit(1);
+            break;
+        default:
+            Console.WriteLine("Brak dostępnej opcji");
+            return;
     }
+}
+
+void MoveBetweenShip()
+{
+    if (shipList.Count < 2)
+    {
+        return;
+    }
+    Console.Write("Napisz nazwę statku z którego usunać kontener: ");
+    var shipo = GetShipByName(Console.ReadLine());
+    var cont = FindContainerInShip(shipo);
+    PrintShipListWithout(shipo);
+    Console.Write("Podaj nazwę statku docelowego: ");
+    GetShipByName(Console.ReadLine()).AddContainer(shipo.RemoveContainer(cont));
 }
 
 Container NewContainer()
@@ -193,11 +251,11 @@ Container NewContainer()
     Container c = null;
     Console.Write("Podaj wysokosc kontenera: ");
     int h = Int32.Parse(Console.ReadLine());
-    Console.WriteLine("Podaj wage kontenera: ");
+    Console.Write("Podaj wage kontenera: ");
     int w = Int32.Parse(Console.ReadLine());
-    Console.WriteLine("Podaj głebokość kontenera");
+    Console.Write("Podaj głebokość kontenera: ");
     int d = Int32.Parse(Console.ReadLine());
-    Console.WriteLine("Podaj masymalna wagę");
+    Console.Write("Podaj masymalna wagę: ");
     int mW = Int32.Parse(Console.ReadLine());
     if (type == "L")
     {

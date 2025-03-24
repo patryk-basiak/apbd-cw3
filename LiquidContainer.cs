@@ -17,11 +17,7 @@ public class LiquidContainer : Container, IHazardNotifier
     {
         Console.WriteLine("Hazardous situation in " + base.id + " container");
     }
-
-    public bool Check()
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public override void AddCargo(int weight)
     {
